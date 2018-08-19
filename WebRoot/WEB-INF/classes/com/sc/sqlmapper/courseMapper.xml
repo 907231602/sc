@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="courseMapper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	<typeAlias alias="person" type="com.sc.model.person"/>
+	
+	<select id="selectAllcourse"  resultClass="course">
+    		<![CDATA[
+    			select *  from course_info order by  courseName asc
+    		]]>
+	</select>
+	
+	<select id="selectAllcourseByTeacherName" parameterClass="String" resultClass="course">
+				<![CDATA[
+    			select *  from course_info
+                    where courseTeacher=#value# order by  courseName asc
+    		]]>
+	</select>
+	
+	<select id="selectAllByChoose" parameterClass="String" resultClass="course">
+	<![CDATA[
+			select *  from course_info c  where  c.courseName=#ChooseCourse#
+	  ]]>
+	</select>
+	
+	<insert id="insertChoosecourse" parameterClass="HashMap">
+	<![CDATA[
+	insert into sc_info (studentId,courseId,courseClass) values (#StudentID#,#chooseId#,#coursesClass#);
+	]]>
+	</insert>
+	
+	<select id="findCourseID" parameterClass="String" resultClass="sc">
+	<![CDATA[
+	select  *  from sc_info where  studentId=#StudentID#
+	]]>
+	</select>
+	
+	<select id="selectedAllCoursebyId" parameterClass="HashMap" resultClass="HashMap">
+	<!-- select sc.courseId,courseClass,courseName,courseTeacher,coursePlace,courseCredit,courseTime   
+    from sc_info sc,course_info ci,student_info si
+  where  sc.studentId=#StudentID#  and sc.courseClass=#courseClassID#  
+  and  sc.courseId=#courseID#  and  sc.studentId=si.studentId and ci.courseId=sc.courseId -->
+	<![CDATA[
+	select  *  from  course_info 
+ where  course_info.courseId=#courseID# and  course_info.courseClass=#courseClassID#
+	]]>
+	</select>
+	
+	<delete id="deletecourseAndstudent" parameterClass="HashMap">
+		<![CDATA[
+		DELETE   FROM  sc_info   
+		where   studentId=#StudentID#  and   courseId=#chooseId# and  courseClass=#coursesClass#
+		]]>
+	</delete>
+	
+	<select id="getallPresonNumber" parameterClass="HashMap" resultClass="int">
+		<![CDATA[
+			select  courseCount   from  course_info 
+               where  course_info.courseId=#choosecourseId# and   course_info.courseClass=#coursesClass#
+		]]>
+	</select>
+	
+	<select id="getPersonOverplus" parameterClass="String" resultClass="int">
+		select  courseOverplus   from  course_info  where  courseId=#chooseId# 
+	</select>
+	
+	<select id="getPersonOverplusAddper" parameterClass="HashMap" resultClass="int">
+	   select  *   from  course_info 
+		 where  course_info.courseId=#chooseId# and  course_info.courseClass=#coursesClass#
+	</select>
+	
+	<select id="getPersonOverplusadd" parameterClass="HashMap" resultClass="course">
+		<![CDATA[
+				select  *   from  course_info 
+		 where  course_info.courseId=#chooseId# and  course_info.courseClass=#coursesClass#
+		]]>
+		
+	</select>
+	
+	<update id="updatePeopleOverplus" parameterClass="HashMap">
+	update     course_info   set  courseOverplus=#peopleOverplusNum#   
+	 where  courseId=#choosecourseID# and  course_info.courseClass=#coursesClass# 
+	</update>
+	
+	<update id="updatecourseOverplus" parameterClass="HashMap">
+	update     course_info   set  courseOverplus=#peopleOverplusNum#    where  courseId=#chooseId#
+	and  courseClass=#coursesClass#
+	</update>
+	
+	<select id="allselectedcourseID" parameterClass="String" resultClass="sc">
+	select * from sc_info  where   studentId=#StudentID#
+	</select>
+	
+	<select id="getAllCourseType" resultClass="HashMap">
+	select   distinct  courseName from course_info 
+	</select>
+	
+	<select id="findAllSCStudent" parameterClass="HashMap" resultClass="sc">
+			<![CDATA[
+				select  distinct studentId  from  sc_info where  sc_info.courseId=#couId#
+					and sc_info.courseClass=#couClass# and status  is null
+			]]>
+	
+	</select>
+	<select id="getStudentSCByStuId" parameterClass="String" resultClass="HashMap">
+			<![CDATA[
+					select * from student_info ,sc_info ,course_info
+						where student_info.studentId=#value#
+						and student_info.studentId=sc_info.studentId
+						and course_info.courseClass=(select  sc_info.courseClass
+						 from sc_info where sc_info.studentId=#value#    )
+						and course_info.courseId=(select sc_info.courseId
+						 from sc_info where sc_info.studentId=#value#)
+			]]>
+	</select>
+	
+	<select id="exportStudentInfoByStudentId" parameterClass="String" resultClass="person">
+			<![CDATA[
+					select studentName,student_info.studentId,studentSex,academy,
+					majoyClass,email,phone,course_info.courseId,courseName,courseCredit,
+					course_info.courseClass,courseTime
+					 from student_info ,sc_info ,course_info
+						where student_info.studentId=#value#
+						and student_info.studentId=sc_info.studentId
+						and course_info.courseClass=(select  sc_info.courseClass
+						 from sc_info where sc_info.studentId=#value#    )
+						and course_info.courseId=(select sc_info.courseId
+						 from sc_info where sc_info.studentId=#value#)
+			]]>
+	</select>
+	
+</sqlMap>

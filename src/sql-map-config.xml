@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE sqlMapConfig         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings useStatementNamespaces="true" />
+	<sqlMap resource="com/sc/sqlmapper/user.xml" />
+
+	<sqlMap resource="com/sc/sqlmapper/courseMapper.xml" />
+
+	<sqlMap resource="com/sc/sqlmapper/studentMappper.xml" />
+	
+	<sqlMap resource="com/sc/sqlmapper/enteringCourse.xml" />
+	
+	<sqlMap resource="com/sc/sqlmapper/modifyCourse.xml"/>
+	
+	<sqlMap resource="com/sc/sqlmapper/selectedStudentMapper.xml"/>
+	
+	<sqlMap resource="com/sc/sqlmapper/DownloadAndUploadMapper.xml"/>
+	
+	<sqlMap resource="com/sc/sqlmapper/homeMapper.xml"/>
+	
+	<sqlMap resource="com/sc/sqlmapper/teacherMapper.xml"/>
+	
+	<sqlMap resource="com/sc/sqlmapper/administratorsMapper.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <constant name="struts.objectFactory.spring.autoWire" value="type" />   
+    <constant name="struts.objectFactory" value="spring" /> 
+    
+	<package name="nun"  namespace="/" extends="struts-default">
+	
+		<action name="login_*" class="com.sc.action.LoginAction" method="{1}">
+			<result name="success">/success.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- 登录 -->
+		<action name="loginsc_*" class="com.sc.action.loginscAction" method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/sc/index.jsp</result>
+			<result name="error">/index.jsp</result>
+			<result name="toindex_jsp">/index.jsp</result>
+		</action>
+		
+		<!-- 注册 -->
+		<action name="rigister_*" class="com.sc.action.registerscAction" method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/sc/index.jsp</result>
+			<result name="error" >/WEB-INF/sc/signup.jsp</result>
+		</action>
+		
+		<action name="home_*" class="com.sc.action.HomeAction" method="{1}">
+		
+				<result name="listfile">/WEB-INF/sc/index.jsp</result>
+		</action>
+		
+		<!-- 显示所有可选课程 -->
+		<action name="selectAllcourse_*" class="com.sc.action.selectCourseAction" method="{1}">
+				<result name="allCourse" type="dispatcher">/WEB-INF/sc/tables.jsp</result>
+			   <result name="courses" type="dispatcher">/WEB-INF/sc/tableselected.jsp</result>
+			   <result name="sessionTimeout">/index.jsp</result>
+			   <result name="sessionIsNull">/index.jsp</result>
+		</action>
+		
+		<!-- 根据选中课程显示所有可选课程 -->
+		<action name="selectCourseByoption_*" class="com.sc.action.selectCourseAction" method="{1}">
+		<result name="allCourse" type="dispatcher">/WEB-INF/sc/tables.jsp</result>
+		<result name="peopleOverError" type="dispatcher">/WEB-INF/sc/tables.jsp</result>
+		  <result name="sessionTimeout">/WEB-INF/sc/signin.jsp</result>
+		  <result name="SCStudent">/WEB-INF/sc/SCStudent.jsp</result>
+		</action>
+		
+		<!-- 通过选项删除课程 -->
+		<action name="deleteCourseBycheck_*" class="com.sc.action.selectCourseAction" method="{1}">
+		<result name="deletesuccess" type="redirectAction">selectAllcourse_selectedCourse</result>
+		<result name="sessionTimeout">/index.jsp</result>
+		 </action>
+		 
+		 <action name="studentInfo_*" class="com.sc.action.studentAction" method="{1}">
+		 <result name="personInfo" type="dispatcher">/WEB-INF/sc/personal-info.jsp</result>
+		<result name="sessionTimeout">/index.jsp</result>
+		 </action>
+		 
+		 <!-- 录入课程 模块-->
+		 <action name="enteringCourses_*" class="com.sc.action.enteringCourseAction" method="{1}">
+		<result name="successEnteringCourse">/WEB-INF/sc/form-showcase.jsp</result>
+		<result name="allcourse">/WEB-INF/sc/form-wizard.jsp</result>
+		<result name="skipToform_showcase">/WEB-INF/sc/form-showcase.jsp</result>
+		<result name="sessionIsNull">/index.jsp</result>
+		<result name="getAllCoourse" type="redirectAction">enteringCourses_lookTeacherEnteredCourse</result>
+		 </action>
+		 
+		 <!-- 修改课程 -->
+		 <action name="modifyCourse_*" class="com.sc.action.modifyCourseAction" method="{1}">
+		 <result name="listModifycourse">/WEB-INF/sc/form-modify.jsp</result>
+		 <result name="updateOk">/WEB-INF/sc/form-modify.jsp</result>
+		 <result name="sessionIsNull">/index.jsp</result>
+		 </action>
+		 
+		 <!-- c查询所有选课学生名单 -->
+		 <action name="manageStudentInfo_*" class="com.sc.action.selectedStudentAction" method="{1}">
+		 <result name="studentListSUCCESS">/WEB-INF/sc/course-student.jsp</result>
+		 <result name="Toregisterstudent" type="redirectAction">manageStudentInfo_lookAllRegisteredStudent</result>
+		 <result name="registerstudent">/WEB-INF/sc/user-list.jsp</result>
+		 <result name="skipToNewUser_jsp">/WEB-INF/sc/new-user.jsp</result>
+		 <result name="sessionIsNull">/index.jsp</result>
+		 </action>
+		 
+		 <action name="fileupload_*" class="com.sc.action.DownloadAndUploadAction"  method="{1}">
+		 	<result name="listfile">/WEB-INF/sc/index.jsp</result>
+		 	<result name="listUploadedFiles">/WEB-INF/sc/uploading.jsp </result>
+		 	<result name="sessionIsNull">/index.jsp</result>
+		 </action>
+		 
+		 <action name="filedownload.*" class="com.sc.action.DownloadAndUploadAction">
+		  <result name="success" type="stream">
+			    <param name="contentType">
+			     	application/octet-stream;charset=ISO8859-1
+			     </param>
+                <param name="contentDisposition">attachment;filename="${downfilename}"</param>
+                <param name="inputName">downloadFile</param>
+                <param name="bufferSize">1024</param>  
+            </result>
+		 </action>
+		 
+		 <action name="teacherAction_*" class="com.sc.action.teacherAction" method="{1}">
+		 <result name="teacherListinfo">/WEB-INF/sc/personal-info.jsp</result>
+		 <result name="toTeacherJsp" type="redirectAction">teacherAction_lookteacherInfo</result>
+		 <result name="sessionIsNull">/index.jsp</result>
+		 </action>
+		 
+		 <action name="administratorAction_*" class="com.sc.action.administratorAction" method="{1}">
+		   <result name="listadmin">/WEB-INF/sc/personal-info.jsp</result>
+		  <result name="sessionIsNull">/index.jsp</result>
+		 </action>
+		 
+</package>
+</struts>    

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/selectcourse?useUnicode=true&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="root" />
+		<property name="password" value="1234567890" />
+	</bean>
+	
+	<bean id="client" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="configLocation">
+			<value>classpath:sql-map-config.xml</value>
+		</property>
+	</bean>
+
+	<bean id="userDaoi" class="com.sc.dao.Imp.userDaoImp">
+		<property name="client" ref="client" />
+	</bean>
+	<bean id="student" class="com.sc.dao.Imp.studentDaoImp">
+		<property name="client" ref="client" />
+	</bean>
+	<bean id="course" class="com.sc.dao.Imp.courseDaoImp">
+	<property name="client" ref="client" />
+	</bean>
+	<bean id="entercourse" class="com.sc.dao.Imp.enteringCourseDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="modifycourse" class="com.sc.dao.Imp.modifyCourseDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="selectedStudent" class="com.sc.dao.Imp.selectedStudentDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="DownloadAndUpload" class="com.sc.dao.Imp.DownloadAndUploadDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="home" class="com.sc.dao.Imp.homeDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="teacher" class="com.sc.dao.Imp.teacherDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+	<bean id="administrators" class="com.sc.dao.Imp.administratorsDaoImp">
+	<property name="client" ref="client"/>
+	</bean>
+</beans>
+ 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="administratorsMapper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	
+	<select id="administratorIslodined" parameterClass="String" resultClass="String">
+	select  distinct  password from manage_info 
+        where manageId=#userId#
+	</select>
+	
+	
+	<select id="findAdminInfoById" parameterClass="String" resultClass="HashMap">
+	  select * from manage_info where manageId=#value#
+	</select>
+	
+	<update id="changeAdminPassword" parameterClass="HashMap">
+	update manage_info set password =#adminPs# where manageId=#adminId#
+	</update>
+	
+	<select id="getAdminNameById" parameterClass="String" resultClass="String">
+	select distinct manageName from manage_info  
+         where manageId=#value#
+	
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="teacherMapper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	<typeAlias alias="enteringcourse" type="com.sc.model.enteringCourse" />
+	<typeAlias alias="teacher" type="com.sc.model.teacher"/>	
+		
+	<insert id="insertNewTeacher" parameterClass="teacher">
+	insert into teacher_info (teacherId,teacherPassword,teacherName,teacherSex,teacherDegree,teachCourse,teacherPhone) values
+(#teacherId#,#teacherPassword#,#teacherName#,#teacherSex#,#teacherDegree#,#teachCourse#,#teacherPhone#)
+	</insert>
+	
+	<select id="teacherIslogined" parameterClass="String" resultClass="String">
+	select  distinct  teacherPassword from teacher_info 
+        where teacherId=#userId#
+	</select>
+	
+	<select id="findteacherInfoById" parameterClass="String" resultClass="HashMap">
+	select * from teacher_info where teacherId=#teacherId#
+	</select>
+	
+	<update id="changeTeacherPs" parameterClass="HashMap">
+	update teacher_info set teacherPassword=#teacherPs# where teacherId=#teacherId#
+	</update>
+	
+	
+	<select id="getNameById" parameterClass="String" resultClass="String">
+	<![CDATA[
+	select distinct teacherName from teacher_info  
+           where teacherId=#value#
+	]]>
+	</select>
+	
+	<select id="getTeacherNameById" parameterClass="String" resultClass="String">
+		<![CDATA[
+				select distinct teacherName from teacher_info where teacherId=#value#
+		]]>
+	</select>
+	
+</sqlMap>

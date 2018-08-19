@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="studentMappper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	
+	<select id="getpasswdbyid" parameterClass="String"  resultClass="String">
+    		<![CDATA[
+    			select s.password from student_info  s where  s.studentId=#studentId#
+    		]]>
+	</select>
+	
+	<insert id="registertoStudent" parameterClass="student">
+		 
+	<![CDATA[
+	insert  into student_info  (studentId,studentName,password,studentSex,academy,majoyClass,email,phone) 
+    values (#studentId#,#studentName#,#password#,#studentSex#,#academy#,#majoyClass#,#email#,#phone#)
+	]]>
+	 <selectKey resultClass="int" keyProperty="id">  
+             SELECT LAST_INSERT_ID() AS ID  
+        </selectKey>  
+	</insert>
+	
+	<select id="lookmyselfInfoByStuId" parameterClass="String" resultClass="student">
+	<![CDATA[
+	SELECT s.id,s.studentName,s.studentId,s.studentSex,s.academy,s.majoyClass,s.email
+		from student_info s
+              where  s.studentId=#StudentID#
+	]]>
+	</select>
+	
+	<update id="changeMypasswordById" parameterClass="HashMap" >
+	<![CDATA[
+	update student_info set  password=#Changepasswd# where studentId=#StudentID#
+	]]>
+	</update>
+	
+	<select id="checkIsRegistered"  parameterClass="String" resultClass="HashMap">
+	<![CDATA[
+	select  *  from student_info s where s.studentId=#stuId#
+	]]>
+	</select>
+	<select id="getStudentNameById" parameterClass="String" resultClass="String">
+	select distinct studentName from student_info  
+       where studentId=#Id#
+	
+	</select>
+	
+	<select id="getAllCollege" resultClass="HashMap">
+		<![CDATA[
+				select  distinct  college  from  school 
+		]]>
+	</select>
+	
+	<select id="getAllMajoyClassBySelectCollege" parameterClass="String" resultClass="HashMap">
+			select distinct  majorClass from school where college=#value#
+	</select>
+	
+</sqlMap>

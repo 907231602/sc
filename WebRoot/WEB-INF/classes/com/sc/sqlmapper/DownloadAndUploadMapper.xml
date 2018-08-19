@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DownloadAndUploadMapper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	
+	<insert id="insertNewFileName" parameterClass="HashMap">
+	
+			insert into upload_info (fileName,uploadPath,publishingUnit,publishDate)
+			values (#fileFileName#,#root#,#username#,now())
+	</insert>
+	
+	<select id="getAllFileInfo" resultClass="HashMap">
+	select * from  upload_info order by publishDate desc
+	
+	</select>
+	
+	<select id="getfileNameByid" parameterClass="int" resultClass="String">
+	
+	select fileName from upload_info where id=#value#
+	</select>
+	
+	<delete id="deletefileById" parameterClass="String">
+	delete upload_info from  upload_info where id=#id#
+	</delete>
+	
+	
+</sqlMap>

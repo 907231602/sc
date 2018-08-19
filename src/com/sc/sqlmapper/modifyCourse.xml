@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="modifyCourse">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	<typeAlias alias="enteringcourse" type="com.sc.model.enteringCourse" />
+	
+	<select id="selectModifyCourseById" parameterClass="String" resultClass="course">
+	<![CDATA[
+	select * from course_info t  where  t.courseId=#selectCourseId#;
+	]]>
+	
+	</select>
+	
+	<select id="selectModifyCourseByIdAddHash" parameterClass="HashMap" resultClass="course">
+		<![CDATA[
+		select * from course_info   where  course_info.courseId=#selectCourseId#  
+                           and  course_info.courseClass=#selectClassIds#
+		   
+		]]>
+	</select>
+	
+	<update id="updateOldCourse" parameterClass="course">
+	<![CDATA[
+	update  course_info  set  courseId=#courseId#,courseName=#courseName#,courseCredit=#courseCredit#,courseClass=#courseClass#,courseTime=#courseTime#,coursePlace=#coursePlace#,courseTeacher=#courseTeacher# ,courseCount=#courseCount#,courseRemark=#courseRemark#
+         where id=#id#
+	]]>
+	</update>
+	
+	<select id="getCourselistByid" parameterClass="int" resultClass="course">
+	<![CDATA[
+	select * from course_info where id=#cid#
+	]]>
+	</select>
+	
+</sqlMap>

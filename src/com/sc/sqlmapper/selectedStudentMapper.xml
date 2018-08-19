@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="selectedStudentMapper">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	<typeAlias alias="enteringcourse" type="com.sc.model.enteringCourse" />
+	
+	<select id="getSCStudentsInfo" parameterClass="HashMap" resultClass="HashMap">
+	<![CDATA[
+     select * from student_info  ,sc_info  ,course_info  
+    where  student_info.studentId=sc_info.studentId
+ and sc_info.courseId=course_info.courseId 
+and sc_info.courseClass=course_info.courseClass order by courseName  asc  limit #start#,#countPerpage#
+    		]]>
+	</select>
+	
+	<select id="findAllCourseNameBySCname" parameterClass="String" resultClass="HashMap">
+		<![CDATA[
+		select * from  course_info  c,sc_info sc,student_info s
+			where  s.studentId=sc.studentId and  c.courseName=#SCname# 
+				and c.courseId=sc.courseId
+					 order by courseClass asc
+		
+	]]>
+	</select>
+	
+	<select id="findAllCourseNameBySCname2" parameterClass="HashMap" resultClass="HashMap">
+	<![CDATA[
+	select * from  course_info  c,sc_info sc,student_info s
+			where  s.studentId=sc.studentId and  c.courseName=#SCname# 
+			 and c.courseClass=#SCclass#
+				and c.courseId=sc.courseId
+					 order by c.id asc
+	]]>
+	</select>
+	
+	<select id="findAllCourseNameBySCname3" parameterClass="String" resultClass="HashMap">
+	<![CDATA[
+	select * from  course_info  c,sc_info sc,student_info s
+			where  s.studentId=sc.studentId  
+			 and c.courseClass=#SCclass#
+				and c.courseId=sc.courseId
+					 order by c.id asc
+	]]>
+	
+	</select>
+	
+	
+	<select id="findCourseType" resultClass="HashMap">
+		<![CDATA[
+		select  distinct c.courseName from course_info  c
+	]]>
+	</select>
+	
+	<select id="findAllRegisteredStudents" resultClass="HashMap">
+	<![CDATA[
+	select * from student_info order by id desc  limit #start#,#countPerpage#
+	]]>
+	</select>
+	
+	<delete id="deleteStudentById" parameterClass="HashMap">
+	<![CDATA[
+	delete from student_info   where  id=#id#  and studentId=#stuId#
+	]]>
+	</delete>
+	
+	<select id="findAllcouresClassNum" parameterClass="String" resultClass="HashMap">
+	<![CDATA[
+	select  distinct courseClass  from course_info where courseName=#value# 
+			order by courseClass asc
+	]]>
+	</select>
+	
+	<select id="getCountSCStudentsInfo" resultClass="java.lang.Integer">
+	<![CDATA[
+	 select count(*) from student_info  s,sc_info  sc ,course_info  c
+    where  s.studentId=sc.studentId and sc.courseId=c.courseId order by courseName  asc
+	]]>
+	</select>
+	
+	<select id="getCountStudentsNumber" resultClass="java.lang.Integer">
+	<![CDATA[
+	select count(*) from student_info order by id desc
+	]]>
+	</select>
+</sqlMap>

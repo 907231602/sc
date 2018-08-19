@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="enteringCourse">
+	<typeAlias alias="sc" type="com.sc.model.sc" />
+	<typeAlias alias="course" type="com.sc.model.course" />
+	<typeAlias alias="student" type="com.sc.model.student" />
+	<typeAlias alias="enteringcourse" type="com.sc.model.enteringCourse" />
+
+	<insert id="insertNewCourse" parameterClass="course">
+	<![CDATA[
+	insert into course_info (courseId,courseName,courseCredit,courseClass ,courseTime,coursePlace,courseTeacher,courseCount,courseOverplus,courseRemark)
+
+values  (#courseId#,#courseName#,#courseCredit#,#courseClass#,#courseTime#,#coursePlace#,#courseTeacher#,#courseCount#,#courseCount#,#courseRemark#)
+	]]>
+	</insert>
+	
+	<select id="findAllEnteredCourse" resultClass="HashMap">
+	<![CDATA[
+	select * from course_info order by  courseName asc
+	]]>
+	
+	</select>
+	<select id="findAllEnteredCourseByteacherName" parameterClass="String"  resultClass="HashMap">
+		<![CDATA[
+			select *  from course_info
+               where courseTeacher=#value# order by  courseName asc
+		]]>
+	</select>
+	
+	
+	<delete id="deleteCourseBycorseId" parameterClass="String">
+	<![CDATA[
+	delete from course_info where courseId=#courseId#
+	]]>
+	</delete>
+	
+	<delete id="deleteCourseBycorseIdAddHash" parameterClass="HashMap">
+		<![CDATA[
+	      delete from course_info where courseId=#courseId#  and courseClass=#selectClassIds#
+	]]>
+	</delete>
+	
+</sqlMap>
